@@ -22,23 +22,25 @@
         //Sanity check for grid coordinates
         if(headCoord.some((v) => v < 0 || v >= 10) || 
         (tailCoord.some((v) => v < 0 || v >= 10))) {
-            console.log('made it!');
             throw('Yer off the map there, matey!');
         }
 
         //Get difference between head and tail coordinates -- ONE of these must be 1
-        const x_length = Math.abs(headCoord[0] - tailCoord[0]);
-        const y_length = Math.abs(headCoord[1] - tailCoord[1]);
+        const xLength = Math.abs(headCoord[0] - tailCoord[0]);
+        const yLength = Math.abs(headCoord[1] - tailCoord[1]);
 
-        for(let i = 0; i < x_length; i++) {
-            for(let j = 0; j < y_length; j++) {
-
+        for(let i = headCoord[0]; i < headCoord[1]+1; i++) {
+            for(let j = tailCoord[0]; j < tailCoord[1]+1; j++) {
+                //test for already filled coordinates
+                if(grid[i][j] == 'ship') {
+                    throw("You fool! You'd sink both your own ships?");
+                }
+                grid[i][j] = 'ship';
             }
         }
 
-         grid[headCoord[0]][headCoord[1]] = 'ship'; //actually place ship reference here
-         grid[tailCoord[0]][tailCoord[1]] = 'ship';
-         this.ships.push(Ship(5));
+        const shipLength = Math.max(xLength, yLength)
+        this.ships.push(Ship(shipLength));
      }
 
     return { ships, grid, placeShip }
