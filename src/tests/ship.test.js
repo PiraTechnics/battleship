@@ -1,9 +1,9 @@
-import { ShipFactory } from '../ship';
+import { Ship } from '../Ship';
 
 let testShip;
 
 beforeEach(() => {
-    testShip = ShipFactory(5, 0, false);
+    testShip = Ship(5, 0, false);
 });
 
 test('Ship should register a hit', () => {

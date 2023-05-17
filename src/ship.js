@@ -1,4 +1,4 @@
-export function ShipFactory(length, hits=0, sunk=false) {
+export function Ship(length, hits=0, sunk=false) {
     return {
         length: length,
         hits: hits,
@@ -13,4 +13,6 @@ export function ShipFactory(length, hits=0, sunk=false) {
             return this.sunk;
         }
     }
+
+    //should also have a name dict --> assigns 'Carrier', 'Battleship', 'Destroyer', 'Submarine', or 'Patrol Boat' based on size
 }
