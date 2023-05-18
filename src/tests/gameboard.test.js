@@ -29,9 +29,17 @@ test('Ships cant be placed overlapping one another', () => {
     }).toThrow("You fool! You'd sink both your own ships?");
 });
 
-/*test('' (), => {
+test('When a ship is hit, it is correctly recorded', () => {
+    testBoard.placeShip([0, 2], [2, 2]);
+    testBoard.receiveAttack([1, 2]);
+    expect(testBoard.grid[1][2]).toBe('hit!');
+});
 
-}); */
+test('When an attack misses, it is correctly recorded', () => {
+    testBoard.placeShip([0, 2], [2, 2]);
+    testBoard.receiveAttack([3, 2]);
+    expect(testBoard.grid[3][2]).toBe('missed!');
+});
 
 //To test:
 // 1. places a ship (marker) at the correct coords

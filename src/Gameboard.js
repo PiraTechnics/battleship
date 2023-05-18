@@ -45,20 +45,4 @@
 
     return { ships, grid, placeShip }
     
-/*     return {
-        ships: [],
-        grid: () => {
-            let xArr = new Array(10);
-            xArr.forEach(x => {
-                x.push(new Array(10));
-            }); //returns a 10x10 empty array
-            return xArr;
-        },
-        placeShip(headCoord, tailCoord) {
-            //grid[headCoord] = 'ship';
-            //grid[tailCoord] = 'ship';
-            console.log(this.grid);
-            this.ships.push(Ship(5));
-        },
-    } */
  }
