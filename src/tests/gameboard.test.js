@@ -4,16 +4,29 @@ let testBoard;
 
 beforeEach(() => {
     testBoard = Gameboard();
+    testBoard.placeShip([0,1], [0,3], 'Submarine');
 })
 
 test('We fill the board coordinates when a ship is placed', () => {
-    testBoard.placeShip([0,0], [0,1]);
-    expect(testBoard.grid[0][0]).toBeTruthy();
+    expect(testBoard.grid[0][1]).toBeTruthy();
+    expect(testBoard.grid[0][2]).toBeTruthy();
+    expect(testBoard.grid[0][3]).toBeTruthy();
 });
 
  test('Ship is created when we place a new one', () => {
-    testBoard.placeShip([0,0], [0,1]);
     expect(testBoard.ships.length).toBe(1);
+});
+
+test('A reference to the correct ship is placed in each square it occupies', () => {
+    expect(testBoard.grid[0][1].length).toBe(3);
+    expect(testBoard.grid[0][2].length).toBe(3);
+    expect(testBoard.grid[0][3].length).toBe(3);
+});
+
+test('Ships can only be created with a width of 1 unit', () => {
+    expect( () => {
+        testBoard.placeShip([2,2], [4, 4], "Destroyer");
+    }).toThrow('Ships cannot be wider than 1 unit!');
 });
 
 test('Ships cant be placed out of bounds', () => {
@@ -23,24 +36,25 @@ test('Ships cant be placed out of bounds', () => {
 });
 
 test('Ships cant be placed overlapping one another', () => {
-    testBoard.placeShip([0, 5], [0, 9]);
     expect(() => {
-        testBoard.placeShip([0, 5], [3, 5]);
+        testBoard.placeShip([0, 3], [3, 3], "Battleship");
     }).toThrow("You fool! You'd sink both your own ships?");
 });
 
-/*test('' (), => {
+test('When a ship is hit, it is correctly recorded', () => {
+    testBoard.placeShip([0, 4], [2, 4], "Destroyer");
+    const shipToTest = testBoard.receiveAttack([1, 4]);
+    expect(shipToTest.hits).toBe(1);
+    expect(testBoard.grid[1][4]).toBe('hit!');
+});
 
-}); */
+test('When an attack misses, it is correctly recorded', () => {
+    testBoard.receiveAttack([3, 2]);
+    expect(testBoard.grid[3][2]).toBe('miss!');
+});
 
-//To test:
-// 1. places a ship (marker) at the correct coords
-// 
-
-//Gameboard: 10x10 grid
-// each square should be either empty, or hold a 'part' of a ship
-// should be able to access the ship in question from any of its grid squares
-
-//Gameboard should be able to place() a new ship, given start and end coords (x1, y1, x2, y2)
-//Should create a ship with the appropriate length
-// should only allow ships of 1 width (so either x OR y coords must be same start to end)
+it('Should report when all ships are sunk', () => {
+    testBoard.receiveAttack([0, 1]);
+    testBoard.receiveAttack([0, 2]);
+    expect(testBoard.receiveAttack([0, 3])).toBe('All Ships Sunk!');
+});

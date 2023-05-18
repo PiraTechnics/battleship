@@ -3,7 +3,11 @@ import { Ship } from '../Ship';
 let testShip;
 
 beforeEach(() => {
-    testShip = Ship(5, 0, false);
+    testShip = Ship('Battleship');
+});
+
+test('Ship should set its length correctly for the type', () => {
+    expect(testShip.length).toBe(4);
 });
 
 test('Ship should register a hit', () => {

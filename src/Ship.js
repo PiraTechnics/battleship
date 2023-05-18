@@ -1,18 +1,27 @@
-export function Ship(length, hits=0, sunk=false) {
-    return {
-        length: length,
-        hits: hits,
-        sunk: sunk,
-        hit() {
-            this.hits++;
-            if(this.hits >= this.length) {
-                this.sunk = true;
-            }
-        },
-        isSunk() {
-            return this.sunk;
-        }
+export function Ship(type) {
+    
+    const shipLengths = {
+        "carrier": 5,
+        "battleship": 4,
+        "destroyer": 3,
+        "submarine": 3,
+        "patrol boat": 2
     }
 
-    //should also have a name dict --> assigns 'Carrier', 'Battleship', 'Destroyer', 'Submarine', or 'Patrol Boat' based on size
+    const name = type;
+    const length = (type ? shipLengths[type.toLowerCase()] : undefined);
+    let hits = 0;
+
+    function hit() {
+        this.hits++;
+    }
+
+    function isSunk() {
+        if(this.hits >= this.length) {
+            return true;
+        }
+        return false
+    }
+    
+    return { name, length, hits, hit, isSunk }
 }
