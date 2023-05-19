@@ -1,48 +1,82 @@
 //creates a 10x10 game board
 // places a new ship with inputs: headPos, and tailPos -> verifies these and builds ship
- // marks relevant coordinate on grid
+// marks relevant coordinate on grid
 
- //Board rules
- //Can only have 1 of each type of ship (lengths must be unique)
- //Ships cannot be placed with bounds outside of grid
- //Ships cannot overlap
+//Board rules
+//Can only have 1 of each type of ship (lengths must be unique)
+//Ships cannot be placed with bounds outside of grid
+//Ships cannot overlap
 
- import { Ship } from './Ship';
+import { Ship } from './Ship';
 
- export function Gameboard() {
+export function Gameboard() {
 
     let ships = [];
     let grid = new Array(10);
-    for(let i= 0; i < grid.length; i++) {
+    for (let i = 0; i < grid.length; i++) {
         grid[i] = new Array(grid.length);
     };
 
-     function placeShip(headCoord, tailCoord) {
+    function placeShip(headCoord, tailCoord, type) {
 
         //Sanity check for grid coordinates
-        if(headCoord.some((v) => v < 0 || v >= 10) || 
-        (tailCoord.some((v) => v < 0 || v >= 10))) {
-            throw('Yer off the map there, matey!');
-        }
+        checkGridBound(headCoord);
+        checkGridBound(tailCoord);
 
         //Get difference between head and tail coordinates -- ONE of these must be 1
         const xLength = Math.abs(headCoord[0] - tailCoord[0]);
         const yLength = Math.abs(headCoord[1] - tailCoord[1]);
 
-        for(let i = headCoord[0]; i < headCoord[1]+1; i++) {
-            for(let j = tailCoord[0]; j < tailCoord[1]+1; j++) {
+        //Create new ship object
+        //const shipLength = Math.max(xLength, yLength);
+        const newShip = Ship(type);
+
+        console.log(grid);
+        //Check for collision with our other ships
+        for (let i = headCoord[0]; i < headCoord[1] + 1; i++) {
+            for (let j = tailCoord[0]; j < tailCoord[1] + 1; j++) {
                 //test for already filled coordinates
-                if(grid[i][j] == 'ship') {
-                    throw("You fool! You'd sink both your own ships?");
+                if (grid[i][j]) {
+                    throw ("You fool! You'd sink both your own ships?");
                 }
-                grid[i][j] = 'ship';
+                //each space contains a reference to the ship
+                grid[i][j] = newShip;
             }
         }
 
-        const shipLength = Math.max(xLength, yLength)
-        this.ships.push(Ship(shipLength));
-     }
+        //Add to our maritime list
+        this.ships.push(newShip);
+    }
 
-    return { ships, grid, placeShip }
-    
- }
+    function receiveAttack(attackCoordinates) {
+        //Sanity check coordinates
+        checkGridBound(attackCoordinates);
+
+        if(!grid[attackCoordinates[0]][attackCoordinates[1]]) {
+            //No ships here -- a miss
+            grid[attackCoordinates[0]][attackCoordinates[1]] = 'miss!';
+        }
+        else if(grid[attackCoordinates[0]][attackCoordinates[1]] instanceof Ship) {
+            //Direct hit
+            //..call the ship's hit method
+            grid[attackCoordinates[0]][attackCoordinates[1]] = 'hit!';
+        }
+        else {
+            //Either we get 'hit' or 'miss', meaning we are trying an already-attacked coordinate
+            throw("You already attacked that spot!");
+        }
+
+    }
+
+    //****Helper Functions****
+    function checkGridBound(coordinates) {
+        //Sanity check for grid coordinates
+        if (coordinates.some((v) => v < 0 || v >= 10)) {
+            throw ('Yer off the map there, matey!');
+        }
+        return true;
+    }
+
+    return { ships, grid, placeShip, receiveAttack }
+
+}

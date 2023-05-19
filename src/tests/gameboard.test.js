@@ -4,16 +4,23 @@ let testBoard;
 
 beforeEach(() => {
     testBoard = Gameboard();
+    testBoard.placeShip([0,1], [0,3], 'Submarine');
 })
 
 test('We fill the board coordinates when a ship is placed', () => {
-    testBoard.placeShip([0,0], [0,1]);
-    expect(testBoard.grid[0][0]).toBeTruthy();
+    expect(testBoard.grid[0][1]).toBeTruthy();
+    expect(testBoard.grid[0][2]).toBeTruthy();
+    expect(testBoard.grid[0][3]).toBeTruthy();
 });
 
  test('Ship is created when we place a new one', () => {
-    testBoard.placeShip([0,0], [0,1]);
     expect(testBoard.ships.length).toBe(1);
+});
+
+test('A reference to the correct ship is placed in each square it occupies', () => {
+    expect(testBoard.grid[0][1].length).toBe(3);
+    expect(testBoard.grid[0][2].length).toBe(3);
+    expect(testBoard.grid[0][3].length).toBe(3);
 });
 
 test('Ships cant be placed out of bounds', () => {
@@ -23,22 +30,20 @@ test('Ships cant be placed out of bounds', () => {
 });
 
 test('Ships cant be placed overlapping one another', () => {
-    testBoard.placeShip([0, 5], [0, 9]);
     expect(() => {
-        testBoard.placeShip([0, 5], [3, 5]);
+        testBoard.placeShip([0, 3], [3, 3], "Battleship");
     }).toThrow("You fool! You'd sink both your own ships?");
 });
 
 test('When a ship is hit, it is correctly recorded', () => {
-    testBoard.placeShip([0, 2], [2, 2]);
-    testBoard.receiveAttack([1, 2]);
+    testBoard.placeShip([0, 4], [2, 4], "Destroyer");
+    testBoard.receiveAttack([1, 4]);
     expect(testBoard.grid[1][2]).toBe('hit!');
 });
 
 test('When an attack misses, it is correctly recorded', () => {
-    testBoard.placeShip([0, 2], [2, 2]);
-    testBoard.receiveAttack([3, 2]);
-    expect(testBoard.grid[3][2]).toBe('missed!');
+    testBoard.receiveAttack([0, 2]);
+    expect(testBoard.grid[1][2]).toBe('miss!');
 });
 
 //To test:
