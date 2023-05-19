@@ -1,12 +1,3 @@
-//creates a 10x10 game board
-// places a new ship with inputs: headPos, and tailPos -> verifies these and builds ship
-// marks relevant coordinate on grid
-
-//Board rules
-//Can only have 1 of each type of ship (lengths must be unique)
-//Ships cannot be placed with bounds outside of grid
-//Ships cannot overlap
-
 import { Ship } from './Ship';
 
 export function Gameboard() {
@@ -24,8 +15,8 @@ export function Gameboard() {
         checkGridBound(tailCoord);
 
         //Get difference between head and tail coordinates -- ONE of these must be 1
-        const xLength = Math.abs(headCoord[0] - tailCoord[0]);
-        const yLength = Math.abs(headCoord[1] - tailCoord[1]);
+        //const xLength = Math.abs(headCoord[0] - tailCoord[0]);
+        //const yLength = Math.abs(headCoord[1] - tailCoord[1]);
 
         //Create new ship object
         //const shipLength = Math.max(xLength, yLength);

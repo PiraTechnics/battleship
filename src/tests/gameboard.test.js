@@ -52,15 +52,3 @@ it('Should report when all ships are sunk', () => {
     testBoard.receiveAttack([0, 2]);
     expect(testBoard.receiveAttack([0, 3])).toBe('All Ships Sunk!');
 });
-
-//To test:
-// 1. places a ship (marker) at the correct coords
-// 
-
-//Gameboard: 10x10 grid
-// each square should be either empty, or hold a 'part' of a ship
-// should be able to access the ship in question from any of its grid squares
-
-//Gameboard should be able to place() a new ship, given start and end coords (x1, y1, x2, y2)
-//Should create a ship with the appropriate length
-// should only allow ships of 1 width (so either x OR y coords must be same start to end)
