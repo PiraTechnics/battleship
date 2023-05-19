@@ -8,6 +8,7 @@ export function Ship(type) {
         "patrol boat": 2
     }
 
+    const name = type;
     const length = (type ? shipLengths[type.toLowerCase()] : undefined);
     let hits = 0;
 
@@ -22,5 +23,5 @@ export function Ship(type) {
         return false
     }
     
-    return { length, hits, hit, isSunk }
+    return { name, length, hits, hit, isSunk }
 }

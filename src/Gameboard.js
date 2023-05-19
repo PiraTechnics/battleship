@@ -37,7 +37,6 @@ export function Gameboard() {
             for (let j = headCoord[1]; j < tailCoord[1] + 1; j++) {
                 //test for already filled coordinates
                 if (grid[i][j]) {
-                    console.log(grid[i][j])
                     throw ("You fool! You'd sink both your own ships?");
                 }
                 //each space contains a reference to the ship
@@ -58,18 +57,28 @@ export function Gameboard() {
         if(!val) {
             //Nothing (undefined) here -- a miss
             grid[attackCoordinates[0]][attackCoordinates[1]] = 'miss!';
+            return false;
         }
         else {
-            if(val.type instanceof String) {
-                //that's a hit!
+            if(val.name) {
+                //the spot has a 'name' variable -- so its a ship, and that's a hit!
+                const hitShip = grid[attackCoordinates[0]][attackCoordinates[1]];
+                hitShip.hit(); //record the hit on the ship object, then on grid
                 grid[attackCoordinates[0]][attackCoordinates[1]] = 'hit!';
+
+                //check if all of our ships have been sunk
+                //if so, return a game-ending message instead
+                if(allShipsSunk()) {
+                    return "All Ships Sunk!";
+                }
+
+                //return our ship if game is still on
+                return hitShip;
             }
             else {
                 throw("You already attacked that spot!");
-            }
-            
+            }     
         }
-
     }
 
     //****Helper Functions****
@@ -79,6 +88,17 @@ export function Gameboard() {
             throw ('Yer off the map there, matey!');
         }
         return true;
+    }
+
+    function allShipsSunk() {
+        let sunkCount = 0;
+        ships.forEach(ship => {
+            if(ship.isSunk()) {
+                sunkCount ++;
+            }
+        });
+
+        return sunkCount == ships.length ? true : false;
     }
 
     return { ships, grid, placeShip, receiveAttack }

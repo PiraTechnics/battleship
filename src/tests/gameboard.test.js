@@ -37,13 +37,20 @@ test('Ships cant be placed overlapping one another', () => {
 
 test('When a ship is hit, it is correctly recorded', () => {
     testBoard.placeShip([0, 4], [2, 4], "Destroyer");
-    testBoard.receiveAttack([1, 4]);
+    const shipToTest = testBoard.receiveAttack([1, 4]);
+    expect(shipToTest.hits).toBe(1);
     expect(testBoard.grid[1][4]).toBe('hit!');
 });
 
 test('When an attack misses, it is correctly recorded', () => {
     testBoard.receiveAttack([3, 2]);
     expect(testBoard.grid[3][2]).toBe('miss!');
+});
+
+it('Should report when all ships are sunk', () => {
+    testBoard.receiveAttack([0, 1]);
+    testBoard.receiveAttack([0, 2]);
+    expect(testBoard.receiveAttack([0, 3])).toBe('All Ships Sunk!');
 });
 
 //To test:
