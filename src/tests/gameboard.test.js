@@ -23,6 +23,12 @@ test('A reference to the correct ship is placed in each square it occupies', () 
     expect(testBoard.grid[0][3].length).toBe(3);
 });
 
+test('Ships can only be created with a width of 1 unit', () => {
+    expect( () => {
+        testBoard.placeShip([2,2], [4, 4], "Destroyer");
+    }).toThrow('Ships cannot be wider than 1 unit!');
+});
+
 test('Ships cant be placed out of bounds', () => {
     expect(() => {
         testBoard.placeShip([5,1], [5,-1]);

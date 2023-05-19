@@ -15,8 +15,12 @@ export function Gameboard() {
         checkGridBound(tailCoord);
 
         //Get difference between head and tail coordinates -- ONE of these must be 1
-        //const xLength = Math.abs(headCoord[0] - tailCoord[0]);
-        //const yLength = Math.abs(headCoord[1] - tailCoord[1]);
+        const xLength = Math.abs(headCoord[0] - tailCoord[0]);
+        const yLength = Math.abs(headCoord[1] - tailCoord[1]);
+        if(Math.min(xLength, yLength) > 1) {
+            //ship too wide, throw error
+            throw('Ships cannot be wider than 1 unit!');
+        }
 
         //Create new ship object
         //const shipLength = Math.max(xLength, yLength);
@@ -35,8 +39,9 @@ export function Gameboard() {
             }
         }
 
-        //Add to our maritime list
+        //Add to our maritime list and return it
         this.ships.push(newShip);
+        return newShip;
     }
 
     function receiveAttack(attackCoordinates) {
