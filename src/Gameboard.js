@@ -31,12 +31,13 @@ export function Gameboard() {
         //const shipLength = Math.max(xLength, yLength);
         const newShip = Ship(type);
 
-        console.log(grid);
+        //console.log(grid);
         //Check for collision with our other ships
-        for (let i = headCoord[0]; i < headCoord[1] + 1; i++) {
-            for (let j = tailCoord[0]; j < tailCoord[1] + 1; j++) {
+        for (let i = headCoord[0]; i < tailCoord[0] + 1; i++) {
+            for (let j = headCoord[1]; j < tailCoord[1] + 1; j++) {
                 //test for already filled coordinates
                 if (grid[i][j]) {
+                    console.log(grid[i][j])
                     throw ("You fool! You'd sink both your own ships?");
                 }
                 //each space contains a reference to the ship
@@ -52,18 +53,21 @@ export function Gameboard() {
         //Sanity check coordinates
         checkGridBound(attackCoordinates);
 
-        if(!grid[attackCoordinates[0]][attackCoordinates[1]]) {
-            //No ships here -- a miss
+        const val = grid[attackCoordinates[0]][attackCoordinates[1]];
+
+        if(!val) {
+            //Nothing (undefined) here -- a miss
             grid[attackCoordinates[0]][attackCoordinates[1]] = 'miss!';
         }
-        else if(grid[attackCoordinates[0]][attackCoordinates[1]] instanceof Ship) {
-            //Direct hit
-            //..call the ship's hit method
-            grid[attackCoordinates[0]][attackCoordinates[1]] = 'hit!';
-        }
         else {
-            //Either we get 'hit' or 'miss', meaning we are trying an already-attacked coordinate
-            throw("You already attacked that spot!");
+            if(val.type instanceof String) {
+                //that's a hit!
+                grid[attackCoordinates[0]][attackCoordinates[1]] = 'hit!';
+            }
+            else {
+                throw("You already attacked that spot!");
+            }
+            
         }
 
     }

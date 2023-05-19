@@ -38,12 +38,12 @@ test('Ships cant be placed overlapping one another', () => {
 test('When a ship is hit, it is correctly recorded', () => {
     testBoard.placeShip([0, 4], [2, 4], "Destroyer");
     testBoard.receiveAttack([1, 4]);
-    expect(testBoard.grid[1][2]).toBe('hit!');
+    expect(testBoard.grid[1][4]).toBe('hit!');
 });
 
 test('When an attack misses, it is correctly recorded', () => {
-    testBoard.receiveAttack([0, 2]);
-    expect(testBoard.grid[1][2]).toBe('miss!');
+    testBoard.receiveAttack([3, 2]);
+    expect(testBoard.grid[3][2]).toBe('miss!');
 });
 
 //To test:
