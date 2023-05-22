@@ -2,3 +2,24 @@ h1 {
     color: white;
     background-color: black;
   }
+
+.square {
+    box-sizing: border-box;
+    border: 1px solid black;
+    text-align: center;
+    padding: 25% 0%;
+}
+
+.square:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
+    
+.container {
+  display: grid;
+  grid-template-columns: repeat(10, 50px);
+  grid-template-rows: repeat(10, 50px);
+  grid-gap: 1px;
+  justify-content: center;
+  align-content: center;
+}
