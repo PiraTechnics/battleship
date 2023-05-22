@@ -85,7 +85,7 @@ test('Players cannot take a turn if their opponent is not set', () => {
 
 test("Player turns should result in a single attack on opponent's board", () => {
     testPlayer.takeTurn(3, 5);
-    expect(testOpponent.board.grid[3][5]).toBe('miss!'); //no ships on the board yet
+    expect(testOpponent.board.grid[3][5].space).toBe('miss!'); //no ships on the board yet
 });
 
 test('Players should keep track of their turns', () => {

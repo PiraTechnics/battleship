@@ -8,9 +8,9 @@ beforeEach(() => {
 })
 
 test('We fill the board coordinates when a ship is placed', () => {
-    expect(testBoard.grid[0][1]).toBeTruthy();
-    expect(testBoard.grid[0][2]).toBeTruthy();
-    expect(testBoard.grid[0][3]).toBeTruthy();
+    expect(testBoard.grid[0][1].space).toBeTruthy();
+    expect(testBoard.grid[0][2].space).toBeTruthy();
+    expect(testBoard.grid[0][3].space).toBeTruthy();
 });
 
  test('Ship is created when we place a new one', () => {
@@ -18,9 +18,9 @@ test('We fill the board coordinates when a ship is placed', () => {
 });
 
 test('A reference to the correct ship is placed in each square it occupies', () => {
-    expect(testBoard.grid[0][1].length).toBe(3);
-    expect(testBoard.grid[0][2].length).toBe(3);
-    expect(testBoard.grid[0][3].length).toBe(3);
+    expect(testBoard.grid[0][1].space.length).toBe(3);
+    expect(testBoard.grid[0][2].space.length).toBe(3);
+    expect(testBoard.grid[0][3].space.length).toBe(3);
 });
 
 test('Ships can only be created with a width of 1 unit', () => {
@@ -45,12 +45,12 @@ test('When a ship is hit, it is correctly recorded', () => {
     testBoard.placeShip([0, 4], [2, 4], "Destroyer");
     const shipToTest = testBoard.receiveAttack([1, 4]);
     expect(shipToTest.hits).toBe(1);
-    expect(testBoard.grid[1][4]).toBe('hit!');
+    expect(testBoard.grid[1][4].space).toBe('hit!');
 });
 
 test('When an attack misses, it is correctly recorded', () => {
     testBoard.receiveAttack([3, 2]);
-    expect(testBoard.grid[3][2]).toBe('miss!');
+    expect(testBoard.grid[3][2].space).toBe('miss!');
 });
 
 it('Should report when all ships are sunk', () => {

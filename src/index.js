@@ -81,25 +81,11 @@ root.render(<GameGrid playerGrid={playerGrid}/>);
 
 function GameGrid(props) {
     
-/*     const cells = props.playerGrid.map(row =>
-        row.map(cell => 
-            <div className="square">1</div>
+   const cells = props.playerGrid.map((row, x) => 
+        row.map((col, y) => 
+            <div className="square" key={x + ', ' + y}>{x + ', ' + y}</div>
         )
     );
-        
-         */
-
-    const cells = [];
-    for(let i=0; i<props.playerGrid.length; i++) {
-        cells.push(new Array(props.playerGrid.length));
-        for(let j=0; j<props.playerGrid[i].length; j++) {
-            cells[i].push(
-                <div id={'[' + i + ',' +  j + ']'} className="square">{[i + ', ' + j]}</div>
-            );
-        }
-    }
-
-    console.log(cells);
     
     return (
         <div className="container">

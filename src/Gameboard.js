@@ -6,6 +6,13 @@ export function Gameboard() {
     let grid = new Array(10);
     for (let i = 0; i < grid.length; i++) {
         grid[i] = new Array(grid.length);
+        for(let j = 0; j < grid[i].length; j++) {
+            grid[i][j] = {
+                x: i,
+                y: j,
+                space: null
+            }
+        }
     };
 
     function placeShip(headCoord, tailCoord, type) {
@@ -26,16 +33,15 @@ export function Gameboard() {
         //const shipLength = Math.max(xLength, yLength);
         const newShip = Ship(type);
 
-        //console.log(grid);
         //Check for collision with our other ships
         for (let i = headCoord[0]; i < tailCoord[0] + 1; i++) {
             for (let j = headCoord[1]; j < tailCoord[1] + 1; j++) {
                 //test for already filled coordinates
-                if (grid[i][j]) {
+                if (grid[i][j].space) {
                     throw ("You fool! You'd sink both your own ships?");
                 }
                 //each space contains a reference to the ship
-                grid[i][j] = newShip;
+                grid[i][j].space = newShip;
             }
         }
 
@@ -48,19 +54,19 @@ export function Gameboard() {
         //Sanity check coordinates
         checkGridBound(attackCoordinates);
 
-        const val = grid[attackCoordinates[0]][attackCoordinates[1]];
+        const val = grid[attackCoordinates[0]][attackCoordinates[1]].space;
 
         if(!val) {
             //Nothing (undefined) here -- a miss
-            grid[attackCoordinates[0]][attackCoordinates[1]] = 'miss!';
+            grid[attackCoordinates[0]][attackCoordinates[1]].space = 'miss!';
             return false;
         }
         else {
             if(val.name) {
                 //the spot has a 'name' variable -- so its a ship, and that's a hit!
-                const hitShip = grid[attackCoordinates[0]][attackCoordinates[1]];
+                const hitShip = val;
                 hitShip.hit(); //record the hit on the ship object, then on grid
-                grid[attackCoordinates[0]][attackCoordinates[1]] = 'hit!';
+                grid[attackCoordinates[0]][attackCoordinates[1]].space = 'hit!';
 
                 //check if all of our ships have been sunk
                 //if so, return a game-ending message instead
