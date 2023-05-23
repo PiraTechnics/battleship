@@ -3,7 +3,7 @@ import { Player } from "./Player";
 
 //React dependencies for UI
 import { createRoot } from 'react-dom/client';
-import React from 'react';
+import React, { useState } from 'react';
 
 const playerShips = [
     {
@@ -74,7 +74,7 @@ document.body.innerHTML = '<div id="app"></div>';
 const root = createRoot(document.getElementById('app'));
 
 //render player gamegrid
-root.render(<GameGrid playerGrid={playerGrid}/>);
+root.render(<GameGrid playerGrid={playerGrid} player={player}/>);
 
 //Display Game Boards
 //Game Loop
@@ -83,7 +83,9 @@ function GameGrid(props) {
     
    const cells = props.playerGrid.map((row, x) => 
         row.map((col, y) => 
-            <div className="square" key={x + ', ' + y}>{x + ', ' + y}</div>
+            ButtonCell(x, y)
+                //{props.playerGrid[x][y]['x'] + ', ' + props.playerGrid[x][y]['y']}
+                // This ^ gets our coordinates
         )
     );
     
@@ -92,4 +94,26 @@ function GameGrid(props) {
             {cells}
         </div>
     );
+}
+
+function ButtonCell(x, y) {
+
+    const [cellText, setCellText] = useState('');
+
+    function launchAttack() {
+        //alert('You attacked: ' + x + ', ' + y + '!');
+        const attackResult = player.board.receiveAttack([x, y]);
+        if(!attackResult) {
+            //do something to indicate miss on cell
+            setCellText('X');
+        }
+        else {
+            //do something to indicate a hit on cell
+            setCellText('O');
+        }
+    }
+    
+    return (
+        <div className="square" key={x + ', ' + y} onClick={launchAttack}>{cellText}</div>
+    )
 }
